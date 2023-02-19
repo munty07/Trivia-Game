@@ -18,9 +18,9 @@ namespace A_Trivia
     {
         MySqlConnection conn = new MySqlConnection("DATASOURCE=localhost;PORT=3306;USERNAME=root;PASSWORD=root");
         MySqlCommand cmd;
+        MySqlDataReader reader;
         string query;
         DateTime currentDate = DateTime.Now;
-
 
         public Register()
         {
@@ -188,14 +188,53 @@ namespace A_Trivia
             }
         }
 
+        public bool SearchData(string field, string info)
+        {
+            string data = "";
+            bool found = false;
+
+            cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT " + field + " FROM trivia_db.accounts WHERE " + field + " = '" + info + "'";
+            try
+            {
+                conn.Open();
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    data = reader.GetString(0);
+                    found = true;
+                }
+                conn.Close();
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("Eroare cautare\n" + erro);
+                this.Close();
+            }
+
+            if (found)
+                return true;
+            else
+                return false;
+        }
+
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
             Regex reg = new Regex(@"^[^\s]+$");
 
             if (reg.IsMatch(txtUsername.Text.Trim()))
             {
-                lblErrorUsername.Text = "✔";
-                lblErrorUsername.ForeColor = Color.Green;
+                if(SearchData("userName", txtUsername.Text) == false)
+                {
+                    lblErrorUsername.Text = "✔";
+                    lblErrorUsername.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblErrorUsername.ForeColor = Color.Red;
+                    lblErrorUsername.Text = "✘ The user already exists!";
+                }
             }
             else
             {
@@ -210,8 +249,16 @@ namespace A_Trivia
 
             if (reg.IsMatch(txtMail.Text.Trim()))
             {
-                lblErrorMail.Text = "✔";
-                lblErrorMail.ForeColor = Color.Green;
+                if (SearchData("userMail", txtMail.Text) == false)
+                {
+                    lblErrorMail.Text = "✔";
+                    lblErrorMail.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblErrorMail.ForeColor = Color.Red;
+                    lblErrorMail.Text = "✘ There is already a user with this email address!";
+                }
             }
             else
             {
