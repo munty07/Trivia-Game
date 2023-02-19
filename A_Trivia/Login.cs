@@ -68,8 +68,11 @@ namespace A_Trivia
             bool found = false;
 
             cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT userName FROM trivia_db.accounts WHERE userName = '" + txtUsername.Text + "'";
-            //@username
+            cmd.CommandText = "SELECT userName FROM trivia_db.accounts WHERE userName = @username";
+            // define the username and password parameters
+            MySqlParameter userParameter = new MySqlParameter("@username", txtUsername.Text);
+            // add the username parameter and password parameter to the command
+            cmd.Parameters.Add(userParameter);
             try
             {
                 conn.Open();
