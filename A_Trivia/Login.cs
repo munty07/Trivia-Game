@@ -191,5 +191,23 @@ namespace A_Trivia
         {
             this.Cursor = Cursors.Default;
         }
+
+        private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnLogin.PerformClick();
+            }
+        }
+
+        private void txtPass_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnLogin.PerformClick();
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace A_Trivia
 {
@@ -56,46 +57,77 @@ namespace A_Trivia
 
         private void btnSignUp_Click(object sender, EventArgs e)
         {
-            query = "INSERT INTO trivia_db.accounts (userName, userFullName, userMail, userPass, userDate) VALUES (@username, @userfullname, @usermail, @userpass, @userdate)";
-
-
-            using (cmd = new MySqlCommand(query, conn))
+            if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtMail.Text) || string.IsNullOrEmpty(txtPass.Text) || string.IsNullOrEmpty(txtCPass.Text))
             {
-                cmd.Parameters.AddWithValue("@username", txtUsername.Text.Trim());
-                cmd.Parameters.AddWithValue("@userfullname", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("@usermail", txtMail.Text.Trim());
-                cmd.Parameters.AddWithValue("@userpass", encryptPass(txtPass.Text));
-                cmd.Parameters.AddWithValue("@userdate", currentDate);
-
-                conn.Open();
-                
-                try
-                {
-                    if ((txtPass.Text).Equals(txtCPass.Text))
-                    {
-                        if (cmd.ExecuteNonQuery() == 1)
-                            MessageBox.Show("Datele au fost inserate!");
-                        else
-                            MessageBox.Show("Datele NU au fost inserate!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Parolele nu corespund!");
-                    }
-                        
-                }
-                catch (Exception ex)
-                {
-                       MessageBox.Show(ex.Message + "btn ");
-                }
-
-                conn.Close();
+               lblError.Text = "Fill in all the fields!";
             }
+            else
+            {
+                string validFields = "✔";
+                bool allValid = true;
 
-            this.Hide();
-            Login formLogin = new Login();
-            formLogin.ShowDialog();
+                foreach(Label lblFields in new Label[] {lblErrorName, lblErrorUsername, lblErrorMail, lblErrorPass, lblErrorCPass })
+                {
+                    if(lblFields.Text != validFields)
+                    {
+                        allValid = false;
+                        break;
+                    }
+                }
 
+                if (allValid)
+                {
+                    query = "INSERT INTO trivia_db.accounts (userName, userFullName, userMail, userPass, userDate) VALUES (@username, @userfullname, @usermail, @userpass, @userdate)";
+
+
+                    using (cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", txtUsername.Text.Trim());
+                        cmd.Parameters.AddWithValue("@userfullname", txtName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@usermail", txtMail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@userpass", encryptPass(txtPass.Text));
+                        cmd.Parameters.AddWithValue("@userdate", currentDate);
+
+                        conn.Open();
+
+                        try
+                        {
+                            if ((txtPass.Text).Equals(txtCPass.Text))
+                            {
+                                if (cmd.ExecuteNonQuery() == 1)
+                                {
+                                    lblError.Text = "";
+                                    MessageBox.Show("The account has been created successfully!");
+                                }
+                                else
+                                {
+                                    lblError.Text = "";
+                                    MessageBox.Show("Account creation failed!");
+                                }
+                            }
+                            else
+                            {
+                                lblError.Text = "Passwords don't match!";
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            lblError.Text = "Database ERROR!";
+                        }
+
+                        conn.Close();
+                    }
+
+                    this.Hide();
+                    Login formLogin = new Login();
+                    formLogin.ShowDialog();
+                }
+                else
+                {
+                    lblError.Text = "At least one field is not valid";
+                }
+            }      
         }
 
         private void lblSignIn_Click(object sender, EventArgs e)
@@ -137,6 +169,151 @@ namespace A_Trivia
             this.Hide();
             Login formLogin = new Login();
             formLogin.ShowDialog();
+        }
+        
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            Regex reg = new Regex(@"^[a-zA-Z\s]+$");
+
+            if (reg.IsMatch(txtName.Text.Trim()))
+            {
+                lblErrorName.Text = "✔";
+                lblErrorName.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorName.ForeColor = Color.Red;
+                lblErrorName.Text = "✘ The name must contain only letters!";
+            }
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            Regex reg = new Regex(@"^[^\s]+$");
+
+            if (reg.IsMatch(txtUsername.Text.Trim()))
+            {
+                lblErrorUsername.Text = "✔";
+                lblErrorUsername.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorUsername.ForeColor = Color.Red;
+                lblErrorUsername.Text = "✘ The username must not contain spaces!";
+            }
+        }
+
+        private void txtMail_TextChanged(object sender, EventArgs e)
+        {
+            Regex reg = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+
+            if (reg.IsMatch(txtMail.Text.Trim()))
+            {
+                lblErrorMail.Text = "✔";
+                lblErrorMail.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorMail.ForeColor = Color.Red;
+                lblErrorMail.Text = "✘ The email address is invalid!";
+            }
+        }
+
+        private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            Regex reg = new Regex(@"^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$");
+
+            if (reg.IsMatch(txtPass.Text.Trim()))
+            {
+                lblErrorPass.Text = "✔";
+                lblErrorPass.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorPass.ForeColor = Color.Red;
+                lblErrorPass.Text = "✘ The password is in an incorrect format!";
+            }
+
+            if ((txtPass.Text).Equals(txtCPass.Text))
+            {
+                lblErrorCPass.Text = "✔";
+                lblErrorCPass.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorCPass.ForeColor = Color.Red;
+                lblErrorCPass.Text = "✘ The passwords don't match!";
+            }
+        }
+
+        private void txtCPass_TextChanged(object sender, EventArgs e)
+        {
+            if ((txtPass.Text).Equals(txtCPass.Text))
+            {
+                lblErrorCPass.Text = "✔";
+                lblErrorCPass.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblErrorCPass.ForeColor = Color.Red;
+                lblErrorCPass.Text = "✘ The passwords don't match!";
+            }
+        }
+
+        private void lblInfo_MouseEnter(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void lblInfo_MouseLeave(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Default;
+        }
+
+        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnSignUp.PerformClick();
+            }
+        }
+
+        private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnSignUp.PerformClick();
+            }
+        }
+
+        private void txtMail_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnSignUp.PerformClick();
+            }
+        }
+
+        private void txtPass_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnSignUp.PerformClick();
+            }
+        }
+
+        private void txtCPass_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                btnSignUp.PerformClick();
+            }
         }
     }
 }
