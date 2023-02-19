@@ -84,9 +84,9 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(314, 232);
+            this.btnSend.Location = new System.Drawing.Point(238, 232);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(170, 31);
+            this.btnSend.Size = new System.Drawing.Size(246, 31);
             this.btnSend.TabIndex = 23;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
