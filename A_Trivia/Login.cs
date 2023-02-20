@@ -209,5 +209,12 @@ namespace A_Trivia
                 btnLogin.PerformClick();
             }
         }
+
+        private void lblFPass_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ResetPassword formResetPass = new ResetPassword();
+            formResetPass.ShowDialog();
+        }
     }
 }

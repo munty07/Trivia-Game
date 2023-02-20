@@ -92,6 +92,7 @@
             this.lblFPass.Size = new System.Drawing.Size(106, 15);
             this.lblFPass.TabIndex = 4;
             this.lblFPass.Text = "Forgot Password?";
+            this.lblFPass.Click += new System.EventHandler(this.lblFPass_Click);
             this.lblFPass.MouseEnter += new System.EventHandler(this.lblFPass_MouseEnter);
             this.lblFPass.MouseLeave += new System.EventHandler(this.lblFPass_MouseLeave);
             // 
