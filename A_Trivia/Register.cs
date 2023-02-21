@@ -113,7 +113,7 @@ namespace A_Trivia
                         }
                         catch (Exception ex)
                         {
-                            lblError.Text = "Database ERROR!";
+                            lblError.Text = "An error occurred!Please send us a message with the problem you have.";
                         }
 
                         conn.Close();
@@ -209,7 +209,7 @@ namespace A_Trivia
             }
             catch (Exception erro)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred!Please send us a message with the problem you have.");
                 this.Close();
             }
 

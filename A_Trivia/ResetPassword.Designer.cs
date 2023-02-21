@@ -48,6 +48,7 @@
             this.lblLine1 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnSendAgain = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnBack
@@ -55,7 +56,7 @@
             this.btnBack.Location = new System.Drawing.Point(-1, -2);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(95, 30);
-            this.btnBack.TabIndex = 15;
+            this.btnBack.TabIndex = 9;
             this.btnBack.Text = "Back";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
@@ -67,7 +68,7 @@
             this.lblTitle.Location = new System.Drawing.Point(243, 23);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(270, 31);
-            this.lblTitle.TabIndex = 16;
+            this.lblTitle.TabIndex = 10;
             this.lblTitle.Text = "Reset your password";
             // 
             // lblMail
@@ -76,7 +77,7 @@
             this.lblMail.Location = new System.Drawing.Point(208, 109);
             this.lblMail.Name = "lblMail";
             this.lblMail.Size = new System.Drawing.Size(42, 17);
-            this.lblMail.TabIndex = 18;
+            this.lblMail.TabIndex = 11;
             this.lblMail.Text = "Email";
             // 
             // lblErrorMail
@@ -86,21 +87,21 @@
             this.lblErrorMail.Location = new System.Drawing.Point(531, 109);
             this.lblErrorMail.Name = "lblErrorMail";
             this.lblErrorMail.Size = new System.Drawing.Size(0, 17);
-            this.lblErrorMail.TabIndex = 20;
+            this.lblErrorMail.TabIndex = 18;
             // 
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(287, 106);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(238, 22);
-            this.txtMail.TabIndex = 22;
+            this.txtMail.TabIndex = 1;
             // 
             // btnSend
             // 
             this.btnSend.Location = new System.Drawing.Point(211, 145);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(315, 31);
-            this.btnSend.TabIndex = 23;
+            this.btnSend.TabIndex = 2;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
@@ -111,7 +112,7 @@
             this.btnNext.Location = new System.Drawing.Point(211, 248);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(138, 31);
-            this.btnNext.TabIndex = 27;
+            this.btnNext.TabIndex = 4;
             this.btnNext.Text = "Next Step";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
@@ -122,7 +123,7 @@
             this.txtCode.Location = new System.Drawing.Point(287, 211);
             this.txtCode.Name = "txtCode";
             this.txtCode.Size = new System.Drawing.Size(238, 22);
-            this.txtCode.TabIndex = 26;
+            this.txtCode.TabIndex = 3;
             this.txtCode.TextChanged += new System.EventHandler(this.txtCode_TextChanged);
             // 
             // lblErrorCode
@@ -132,7 +133,7 @@
             this.lblErrorCode.Location = new System.Drawing.Point(531, 214);
             this.lblErrorCode.Name = "lblErrorCode";
             this.lblErrorCode.Size = new System.Drawing.Size(0, 17);
-            this.lblErrorCode.TabIndex = 25;
+            this.lblErrorCode.TabIndex = 19;
             // 
             // lblCode
             // 
@@ -140,7 +141,7 @@
             this.lblCode.Location = new System.Drawing.Point(209, 214);
             this.lblCode.Name = "lblCode";
             this.lblCode.Size = new System.Drawing.Size(73, 17);
-            this.lblCode.TabIndex = 24;
+            this.lblCode.TabIndex = 13;
             this.lblCode.Text = "Digit Code";
             // 
             // btnChange
@@ -149,7 +150,7 @@
             this.btnChange.Location = new System.Drawing.Point(211, 384);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(315, 31);
-            this.btnChange.TabIndex = 31;
+            this.btnChange.TabIndex = 8;
             this.btnChange.Text = "Change Password";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
@@ -159,8 +160,9 @@
             this.txtNewPass.Enabled = false;
             this.txtNewPass.Location = new System.Drawing.Point(328, 319);
             this.txtNewPass.Name = "txtNewPass";
+            this.txtNewPass.PasswordChar = '*';
             this.txtNewPass.Size = new System.Drawing.Size(197, 22);
-            this.txtNewPass.TabIndex = 30;
+            this.txtNewPass.TabIndex = 6;
             this.txtNewPass.TextChanged += new System.EventHandler(this.txtNewPass_TextChanged);
             // 
             // lblErrorNewPass
@@ -170,7 +172,7 @@
             this.lblErrorNewPass.Location = new System.Drawing.Point(531, 322);
             this.lblErrorNewPass.Name = "lblErrorNewPass";
             this.lblErrorNewPass.Size = new System.Drawing.Size(0, 17);
-            this.lblErrorNewPass.TabIndex = 29;
+            this.lblErrorNewPass.TabIndex = 20;
             // 
             // lblNewPass
             // 
@@ -178,7 +180,7 @@
             this.lblNewPass.Location = new System.Drawing.Point(208, 322);
             this.lblNewPass.Name = "lblNewPass";
             this.lblNewPass.Size = new System.Drawing.Size(100, 17);
-            this.lblNewPass.TabIndex = 28;
+            this.lblNewPass.TabIndex = 15;
             this.lblNewPass.Text = "New Password";
             // 
             // txtConfirmPass
@@ -186,8 +188,9 @@
             this.txtConfirmPass.Enabled = false;
             this.txtConfirmPass.Location = new System.Drawing.Point(328, 347);
             this.txtConfirmPass.Name = "txtConfirmPass";
+            this.txtConfirmPass.PasswordChar = '*';
             this.txtConfirmPass.Size = new System.Drawing.Size(197, 22);
-            this.txtConfirmPass.TabIndex = 34;
+            this.txtConfirmPass.TabIndex = 7;
             this.txtConfirmPass.TextChanged += new System.EventHandler(this.txtConfirmPass_TextChanged);
             // 
             // lblErrorConfirmPass
@@ -197,7 +200,7 @@
             this.lblErrorConfirmPass.Location = new System.Drawing.Point(531, 350);
             this.lblErrorConfirmPass.Name = "lblErrorConfirmPass";
             this.lblErrorConfirmPass.Size = new System.Drawing.Size(0, 17);
-            this.lblErrorConfirmPass.TabIndex = 33;
+            this.lblErrorConfirmPass.TabIndex = 21;
             // 
             // lblConfirmPass
             // 
@@ -205,7 +208,7 @@
             this.lblConfirmPass.Location = new System.Drawing.Point(208, 350);
             this.lblConfirmPass.Name = "lblConfirmPass";
             this.lblConfirmPass.Size = new System.Drawing.Size(121, 17);
-            this.lblConfirmPass.TabIndex = 32;
+            this.lblConfirmPass.TabIndex = 16;
             this.lblConfirmPass.Text = "Confirm Password";
             // 
             // lblLine1
@@ -214,7 +217,7 @@
             this.lblLine1.Location = new System.Drawing.Point(174, 179);
             this.lblLine1.Name = "lblLine1";
             this.lblLine1.Size = new System.Drawing.Size(384, 17);
-            this.lblLine1.TabIndex = 35;
+            this.lblLine1.TabIndex = 12;
             this.lblLine1.Text = "_______________________________________________";
             // 
             // label7
@@ -223,7 +226,7 @@
             this.label7.Location = new System.Drawing.Point(174, 282);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(384, 17);
-            this.label7.TabIndex = 36;
+            this.label7.TabIndex = 14;
             this.label7.Text = "_______________________________________________";
             // 
             // btnSendAgain
@@ -231,16 +234,26 @@
             this.btnSendAgain.Location = new System.Drawing.Point(387, 248);
             this.btnSendAgain.Name = "btnSendAgain";
             this.btnSendAgain.Size = new System.Drawing.Size(138, 31);
-            this.btnSendAgain.TabIndex = 37;
+            this.btnSendAgain.TabIndex = 5;
             this.btnSendAgain.Text = "Send Again";
             this.btnSendAgain.UseVisualStyleBackColor = true;
             this.btnSendAgain.Click += new System.EventHandler(this.btnSendAgain_Click);
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(211, 69);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 17);
+            this.lblError.TabIndex = 17;
             // 
             // ResetPassword
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnSendAgain);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblLine1);
@@ -265,7 +278,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reset Password";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ResetPassword_FormClosed);
-            this.Load += new System.EventHandler(this.ResetPassword_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -293,5 +305,6 @@
         private System.Windows.Forms.Label lblLine1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSendAgain;
+        private System.Windows.Forms.Label lblError;
     }
 }

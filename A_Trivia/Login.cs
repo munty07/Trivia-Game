@@ -85,9 +85,9 @@ namespace A_Trivia
                 }
                 conn.Close();
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred!Please send us a message with the problem you have.");
                 this.Close();
             }
 

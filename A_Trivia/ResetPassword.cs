@@ -80,7 +80,7 @@ namespace A_Trivia
             }
             catch (Exception erro)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred!Please send us a message with the problem you have.");
                 this.Close();
             }
 
@@ -111,9 +111,9 @@ namespace A_Trivia
                 }
                 conn.Close();
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred!Please send us a message with the problem you have.");
                 this.Close();
             }
             return data;
@@ -142,9 +142,9 @@ namespace A_Trivia
                 }
                 conn.Close();
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred!Please send us a message with the problem you have.");
                 this.Close();
             }
 
@@ -177,13 +177,13 @@ namespace A_Trivia
                         else
                         {
                             lblErrorMail.ForeColor = Color.Red;
-                            lblErrorMail.Text = "Error at insert";
+                            lblErrorMail.Text = "An error occurred!Please send us a message with the problem you have.";
                         }
                     }
                     catch (Exception ex)
                     {
                         lblErrorMail.ForeColor = Color.Red;
-                        lblErrorMail.Text = ex.ToString();
+                        lblErrorMail.Text = "An error occurred!Please send us a message with the problem you have.";
                     }
                     conn.Close();
                 }
@@ -204,9 +204,9 @@ namespace A_Trivia
 
                         while (reader.Read()) { }
                     }
-                    catch (Exception erro)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Eroare\n" + erro);
+                        MessageBox.Show("An error occurred! Please send us a message with the problem you have.");
                     }
                     conn.Close();
                 }
@@ -221,6 +221,9 @@ namespace A_Trivia
             {
                 lblErrorMail.ForeColor = Color.Green;
                 lblErrorMail.Text = "✔";
+
+                lblError.Text = "Check your email!";
+                lblError.ForeColor = Color.Blue;
 
                 NameValueCollection values = new NameValueCollection();
                 values.Add("apikey", "2BA3D7FDE3CC019B7F91937C9ED61556C2087F4142721C21B43F1B4BD03BCD910F1C9934B59451186CE7E4909ED32EB1");
@@ -240,21 +243,17 @@ namespace A_Trivia
             }
             else
             {
+                lblError.Text = "";
+
                 lblErrorMail.Text = "✘ There is no account with this email address!";
                 lblErrorMail.ForeColor = Color.Red;
                 txtCode.Enabled = false;
             }
         }
     
-
         private void btnSend_Click(object sender, EventArgs e)
         {
             SendMail();
-        }
-
-        private void ResetPassword_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSendAgain_Click(object sender, EventArgs e)
@@ -301,15 +300,13 @@ namespace A_Trivia
                     return true;
                 }
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                MessageBox.Show("Eroare cautare\n" + erro);
+                MessageBox.Show("An error occurred! Please send us a message with the problem you have.");
             }
             
             return false;
         }
-
-        
 
         private void txtCode_TextChanged(object sender, EventArgs e)
         {
@@ -321,12 +318,14 @@ namespace A_Trivia
                     lblErrorCode.Text = "✘ The code is incorrect!";
                     lblErrorCode.ForeColor = Color.Red;
                     btnNext.Enabled = false;
+                    btnSendAgain.Enabled = true;
                 }
                 else
                 {
                     lblErrorCode.Text = "✔";
                     lblErrorCode.ForeColor = Color.Green;
                     btnNext.Enabled = true;
+                    btnSendAgain.Enabled = false;
                 }
             }
             else
@@ -334,19 +333,40 @@ namespace A_Trivia
                 lblErrorCode.Text = "✘ The code must contain only digits!";
                 lblErrorCode.ForeColor = Color.Red;
                 btnNext.Enabled = false;
+                btnSendAgain.Enabled = true;
             }
         }
 
         private void btnChange_Click(object sender, EventArgs e)
         {
-            if((lblNewPass.Text).Equals("✔") && (lblErrorConfirmPass.Text).Equals("✔"))
+            string newPass = txtNewPass.Text;
+            string encPass;
+
+            string validFields = "✔";
+            bool allValid = true;
+
+            foreach (Label lblFields in new Label[] {lblErrorNewPass, lblErrorConfirmPass})
             {
+                if (lblFields.Text != validFields)
+                {
+                    allValid = false;
+                    break;
+                }
+            }
+
+            if (allValid)
+            {
+                lblError.Text = "";
+
+                Register formRegister = new Register();
+                encPass = formRegister.encryptPass(newPass);
+
                 string query = "UPDATE trivia_db.accounts SET userPass = @userpass WHERE userMail = @usermail";
 
                 using (cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@usermail", txtMail.Text);
-                    cmd.Parameters.AddWithValue("@userpass", txtNewPass.Text);
+                    cmd.Parameters.AddWithValue("@userpass", encPass);
 
                     conn.Open();
                     try
@@ -356,13 +376,22 @@ namespace A_Trivia
                         while (reader.Read()) { }
 
                         MessageBox.Show("Password has been updated!");
+
+                        this.Hide();
+                        Login formLogin = new Login();
+                        formLogin.ShowDialog();
                     }
-                    catch (Exception erro)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Eroare\n" + erro);
+                        MessageBox.Show("Password has not been updated! Please send us a message with the problem you have.");
                     }
                     conn.Close();
                 }
+            }
+            else
+            {
+                lblError.Text = "✘ At least one field is not valid!";
+                lblError.ForeColor = Color.Red;
             }
         }
 
